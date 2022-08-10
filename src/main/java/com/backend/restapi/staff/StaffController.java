@@ -2,9 +2,7 @@ package com.backend.restapi.staff;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,21 @@ public class StaffController {
 
     @GetMapping
     public List<Staff> getStudents() {
-        return staffService.getStudents();
+        return staffService.getStaff();
+    }
+
+    @PostMapping
+    public void addStaff(@RequestBody Staff staff) {
+        staffService.addStaff(staff);
+    }
+
+    @DeleteMapping(path = "{id}")
+    public void deleteStaff(@PathVariable("id") Long id) {
+        staffService.deleteStaff(id);
+    }
+
+    @PutMapping(path = "{id}")
+    public void updateStaff(@PathVariable("id") Long id, @RequestBody Staff staff) {
+        staffService.updateStaff(id, staff);
     }
 }

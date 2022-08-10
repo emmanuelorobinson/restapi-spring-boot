@@ -1,30 +1,38 @@
 package com.backend.restapi.staff;
 
-import java.time.LocalDate;
+import javax.persistence.*;
 
+import java.time.LocalDate;
+import java.time.Period;
+
+@Entity
+@Table
 public class Staff {
+    @Id
+    @SequenceGenerator(name = "staff_seq", sequenceName = "staff_seq", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "staff_seq")
     private Long id;
     private String name;
     private String email;
     private LocalDate dob;
+
+    @Transient
     private Integer age;
 
     public Staff() {
     }
 
-    public Staff(Long id, String name, String email, LocalDate dob, Integer age) {
+    public Staff(Long id, String name, String email, LocalDate dob) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.dob = dob;
-        this.age = age;
     }
 
-    public Staff(String name, String email, LocalDate dob, Integer age) {
+    public Staff(String name, String email, LocalDate dob) {
         this.name = name;
         this.email = email;
         this.dob = dob;
-        this.age = age;
     }
 
     public Long getId() {
@@ -60,7 +68,7 @@ public class Staff {
     }
 
     public Integer getAge() {
-        return age;
+        return Period.between(dob, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {
